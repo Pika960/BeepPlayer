@@ -1,6 +1,4 @@
 //includes
-#include <string>
-#include <windows.h>
 #include "main.h"
 #include "resource.h"
 
