@@ -4,6 +4,7 @@
 
 //includes
 #include <string>
+#include <vector>
 #include <windows.h>
 
 //typedefs
@@ -27,6 +28,7 @@ typedef struct DataSegment
 //extern variables
 extern bool      endRunningThread;
 extern handle_t  threadHandle;
+extern HWND      hwnd;
 
 //prototypes
 void loadFile(std::string const &filename);

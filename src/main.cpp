@@ -9,13 +9,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
 //global values
 bool      endRunningThread;
 handle_t  threadHandle;
+HWND      hwnd;
 
 //winmain
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance,
     LPSTR lpCmdLine, int nCmdShow)
 {
     MSG        message;
-    HWND       hwnd;
     WNDCLASSEX WndClassEx;
 
     endRunningThread = false;
