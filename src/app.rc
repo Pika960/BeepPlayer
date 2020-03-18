@@ -1,0 +1,40 @@
+//includes
+#include <windows.h>
+#include <commctrl.h>
+#include <richedit.h>
+#include "resource.h"
+
+//manifest resource
+LANGUAGE 0, SUBLANG_NEUTRAL
+1 RT_MANIFEST ".\\manifest.xml"
+
+//icon
+//IDI_ICON1 ICON DISCARDABLE "icon.ico"
+
+//executable version information
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION    1,0,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS         VOS__WINDOWS32
+FILETYPE       VFT_APP
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "CompanyName",      "Gabriel Daenner Medien"
+            VALUE "FileDescription",  "Let's beep some music"
+            VALUE "FileVersion",      "1.0.0.0\0"
+            VALUE "ProductName",      "BeepPlayer (win64-gcc)"
+            VALUE "InternalName",     "BeepPlayer (win64-gcc)"
+            VALUE "ProductVersion",   "1.0.0.0\0"
+            VALUE "LegalCopyright",   "Copyright (c) 2020 Gabriel Daenner"
+            VALUE "OriginalFilename", "BeepPlayer.exe"
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
