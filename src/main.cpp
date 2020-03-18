@@ -139,7 +139,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                     {
                         SetDlgItemText(hwnd, 2,
                             "Status:\r\nFile loaded successfull.");
-                        //loadFile(openfilename);
+                        loadFile(path);
                     }
                 } break;
 
@@ -152,17 +152,17 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
 
                 case(ID_EXAMPLE_MARIO):
                 {
-                    //loadFile("examples\\mario.txt");
+                    loadFile("examples\\mario.txt");
                 } break;
 
                 case(ID_EXAMPLE_TETRIS):
                 {
-                    //loadFile("examples\\tetris.txt");
+                    loadFile("examples\\tetris.txt");
                 } break;
 
                 case(ID_EXAMPLE_ZELDA):
                 {
-                    //loadFile("examples\\zelda.txt");
+                    loadFile("examples\\zelda.txt");
                 } break;
 
                 case(ID_HELP_SHORTCUTS):
