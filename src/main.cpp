@@ -5,6 +5,8 @@
 //prototypes
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
     WPARAM wParam, LPARAM lParam);
+void convertRelativeToAbsolute(char szFilePath[MAX_PATH],
+    std::string const &filename);
 
 //global values
 bool      endRunningThread;
@@ -152,17 +154,29 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
 
                 case(ID_EXAMPLE_MARIO):
                 {
-                    loadFile("examples\\mario.txt");
+                    char szFilePath[MAX_PATH] = {0};
+                    convertRelativeToAbsolute(szFilePath,
+                        "examples\\mario.txt");
+
+                    loadFile(szFilePath);
                 } break;
 
                 case(ID_EXAMPLE_TETRIS):
                 {
-                    loadFile("examples\\tetris.txt");
+                    char szFilePath[MAX_PATH] = {0};
+                    convertRelativeToAbsolute(szFilePath,
+                        "examples\\tetris.txt");
+
+                    loadFile(szFilePath);
                 } break;
 
                 case(ID_EXAMPLE_ZELDA):
                 {
-                    loadFile("examples\\zelda.txt");
+                    char szFilePath[MAX_PATH] = {0};
+                    convertRelativeToAbsolute(szFilePath,
+                        "examples\\zelda.txt");
+
+                    loadFile(szFilePath);
                 } break;
 
                 case(ID_HELP_SHORTCUTS):
@@ -227,4 +241,15 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
     }
 
     return DefWindowProc(hwnd, message, wParam, lParam);
+}
+
+void convertRelativeToAbsolute(char szFilePath[MAX_PATH],
+    std::string const &filename)
+{
+    char szAppPath[MAX_PATH] = {0};
+    GetModuleFileName(NULL, szAppPath, sizeof(szAppPath));
+    *(strrchr(szAppPath, '\\') + 1) = 0;
+
+    lstrcpy(szFilePath, szAppPath);
+    lstrcat(szFilePath, filename.c_str());
 }
