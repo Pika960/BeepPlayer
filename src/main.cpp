@@ -126,12 +126,14 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                     SetDlgItemText(hwnd, 2,
                         "Status:\r\nTrying to load file.");
 
-                    char path[MAX_PATH + 1] = {0};
-                    OPENFILENAMEA openfilename = {sizeof(OPENFILENAMEA), 0, 0,
-                        "Textfiles (*.txt)\0""*.txt\0\0", 0, 0, 0, path,
-                        MAX_PATH, 0, 0, ".\\", "Choose your file...", 0};
+                    char szFilePath[MAX_PATH + 1] = {0};
+                    OPENFILENAMEA ofn = {sizeof(OPENFILENAMEA), 0, 0,
+                        "Textfiles (*.txt)\0""*.txt\0\0", 0, 0, 0, szFilePath,
+                        MAX_PATH, 0, 0, ".\\", "Choose your file...",
+                        OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST |
+                        OFN_NOCHANGEDIR | OFN_EXPLORER};
 
-                    if (GetOpenFileNameA(&openfilename) == FALSE)
+                    if (GetOpenFileNameA(&ofn) == FALSE)
                     {
                         SetDlgItemText(hwnd, 2,
                             "Status:\r\nLoading file failed.");
@@ -141,7 +143,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                     {
                         SetDlgItemText(hwnd, 2,
                             "Status:\r\nFile loaded successfull.");
-                        loadFile(path);
+                        loadFile(szFilePath);
                     }
                 } break;
 
