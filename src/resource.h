@@ -14,11 +14,13 @@
 #define ID_BUTTON1          2001
 #define ID_EDIT1            2002
 
-#define ID_FILE_EXIT        3001
-#define ID_EXAMPLE_FF       3002
-#define ID_EXAMPLE_MARIO    3003
-#define ID_EXAMPLE_TETRIS   3004
-#define ID_EXAMPLE_ZELDA    3005
-#define ID_HELP_SHORTCUTS   3006
-#define ID_HELP_ABOUT       3007
-#define ID_HELP_LICENSE     3008
+#define ID_FILE_OPEN        3001
+#define ID_FILE_EXIT        3002
+#define ID_MEDIA_STOP       3003
+#define ID_EXAMPLE_FF       3004
+#define ID_EXAMPLE_MARIO    3005
+#define ID_EXAMPLE_TETRIS   3006
+#define ID_EXAMPLE_ZELDA    3007
+#define ID_HELP_SHORTCUTS   3008
+#define ID_HELP_ABOUT       3009
+#define ID_HELP_LICENSE     3010

@@ -7,6 +7,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
     WPARAM wParam, LPARAM lParam);
 void convertRelativeToAbsolute(char szFilePath[MAX_PATH],
     std::string const &filename);
+void createOpenFileDialog();
 
 //global values
 bool      endRunningThread;
@@ -88,9 +89,17 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
 
             hSubMenu = CreatePopupMenu();
             AppendMenu(hSubMenu, MF_STRING,
+                ID_FILE_OPEN, "&Open File");
+            AppendMenu(hSubMenu, MF_STRING,
                 ID_FILE_EXIT, "&Exit");
             AppendMenu(hMenu, MF_STRING | MF_POPUP,
                 (UINT64)hSubMenu, "&File");
+
+            hSubMenu = CreatePopupMenu();
+            AppendMenu(hSubMenu, MF_STRING,
+                ID_MEDIA_STOP, "&Stop Playback");
+            AppendMenu(hMenu, MF_STRING | MF_POPUP,
+                (UINT64)hSubMenu, "&Media");
 
             hSubMenu = CreatePopupMenu();
             AppendMenu(hSubMenu, MF_STRING,
@@ -124,29 +133,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
             switch (LOWORD(wParam))
             {
                 case(ID_BUTTON1):
+                case(ID_FILE_OPEN):
                 {
-                    SetDlgItemText(hwnd, ID_EDIT1,
-                        "Status:\r\nTrying to load file.");
-
-                    char szFilePath[MAX_PATH + 1] = {0};
-                    OPENFILENAMEA ofn = {sizeof(OPENFILENAMEA), 0, 0,
-                        "Textfiles (*.txt)\0""*.txt\0\0", 0, 0, 0, szFilePath,
-                        MAX_PATH, 0, 0, ".\\", "Choose your file...",
-                        OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST |
-                        OFN_NOCHANGEDIR | OFN_EXPLORER};
-
-                    if (GetOpenFileNameA(&ofn) == FALSE)
-                    {
-                        SetDlgItemText(hwnd, ID_EDIT1,
-                            "Status:\r\nLoading file failed.");
-                    }
-
-                    else
-                    {
-                        SetDlgItemText(hwnd, ID_EDIT1,
-                            "Status:\r\nFile loaded successfull.");
-                        loadFile(szFilePath);
-                    }
+                    createOpenFileDialog();
                 } break;
 
                 case(ID_FILE_EXIT):
@@ -154,6 +143,23 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
                     SetDlgItemText(hwnd, ID_EDIT1,
                         "Status:\r\nApplication will be closed.");
                     SendMessage(hwnd, WM_CLOSE, 0, 0);
+                } break;
+
+                case(ID_MEDIA_STOP):
+                {
+                    if (threadHandle != NULL)
+                    {
+                        endRunningThread = true;
+
+                        WaitForSingleObject(threadHandle, INFINITE);
+                        CloseHandle(threadHandle);
+
+                        threadHandle     = NULL;
+                        endRunningThread = false;
+
+                        SetDlgItemText(hwnd, ID_EDIT1,
+                            "Status:\r\nPlayback stopped.");
+                    }
                 } break;
 
                 case(ID_EXAMPLE_FF):
@@ -265,4 +271,27 @@ void convertRelativeToAbsolute(char szFilePath[MAX_PATH],
 
     lstrcpy(szFilePath, szAppPath);
     lstrcat(szFilePath, filename.c_str());
+}
+
+void createOpenFileDialog()
+{
+    SetDlgItemText(hwnd, ID_EDIT1,
+        "Status:\r\nTrying to load file.");
+
+    char szFilePath[MAX_PATH + 1] = {0};
+    OPENFILENAMEA ofn = {sizeof(OPENFILENAMEA), 0, 0,
+        "Textfiles (*.txt)\0""*.txt\0\0", 0, 0, 0, szFilePath, MAX_PATH, 0, 0,
+        ".\\", "Choose your file...", OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST |
+        OFN_NOCHANGEDIR | OFN_EXPLORER};
+
+    if (GetOpenFileNameA(&ofn) == FALSE)
+    {
+        SetDlgItemText(hwnd, ID_EDIT1, "Status:\r\nLoading file failed.");
+    }
+
+    else
+    {
+        SetDlgItemText(hwnd, ID_EDIT1, "Status:\r\nFile loaded successfull.");
+        loadFile(szFilePath);
+    }
 }
