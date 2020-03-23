@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include "main.h"
+#include "resource.h"
 
 //prototypes
 void convertNotesToFrequencies(freq_vec_2d &frequencies);
@@ -161,7 +162,7 @@ unsigned __stdcall threadFunction(void* data)
         freq_vec* track = &dg.frequencies[i];
 
         std::string nowPlaying = "Now playing:\r\n" + dg.titles.at(i) + "\0";
-        SetDlgItemText(hwnd, 2, nowPlaying.c_str());
+        SetDlgItemText(hwnd, ID_EDIT1, nowPlaying.c_str());
 
         for (uint8_t j = 0; j < track->size(); j++)
         {
@@ -177,7 +178,7 @@ unsigned __stdcall threadFunction(void* data)
         Sleep(200);
     }
 
-    SetDlgItemText(hwnd, 2, "Status:\r\nPlayback finished.");
+    SetDlgItemText(hwnd, ID_EDIT1, "Status:\r\nPlayback finished.");
 
     endOfThread:
     return 0;

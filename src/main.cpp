@@ -75,13 +75,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         {
             hPlayFile = CreateWindowEx(WS_EX_LEFT, "button", "Play File",
                 WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 105, 10, 190, 40,
-                hwnd, (HMENU)1,
+                hwnd, (HMENU)ID_BUTTON1,
                 (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
 
             hStatusMsg = CreateWindowEx(WS_EX_CLIENTEDGE, "edit",
                 "Status:\r\nApplication started", WS_CHILD | WS_VISIBLE |
                 ES_MULTILINE | ES_AUTOHSCROLL | ES_AUTOVSCROLL,
-                10, 70, 380, 40, hwnd, (HMENU)2,
+                10, 70, 380, 40, hwnd, (HMENU)ID_EDIT1,
                 (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
 
             hMenu = CreateMenu();
@@ -94,7 +94,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
 
             hSubMenu = CreatePopupMenu();
             AppendMenu(hSubMenu, MF_STRING,
-                ID_EXAMPLE_MARIO,  "&Super Mario");
+                ID_EXAMPLE_FF, "&Final Fantasy");
+            AppendMenu(hSubMenu, MF_STRING,
+                ID_EXAMPLE_MARIO, "&Super Mario");
             AppendMenu(hSubMenu, MF_STRING,
                 ID_EXAMPLE_TETRIS, "&Tetris");
             AppendMenu(hSubMenu, MF_STRING,
@@ -121,9 +123,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
         {
             switch (LOWORD(wParam))
             {
-                case(1):
+                case(ID_BUTTON1):
                 {
-                    SetDlgItemText(hwnd, 2,
+                    SetDlgItemText(hwnd, ID_EDIT1,
                         "Status:\r\nTrying to load file.");
 
                     char szFilePath[MAX_PATH + 1] = {0};
@@ -135,13 +137,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
 
                     if (GetOpenFileNameA(&ofn) == FALSE)
                     {
-                        SetDlgItemText(hwnd, 2,
+                        SetDlgItemText(hwnd, ID_EDIT1,
                             "Status:\r\nLoading file failed.");
                     }
 
                     else
                     {
-                        SetDlgItemText(hwnd, 2,
+                        SetDlgItemText(hwnd, ID_EDIT1,
                             "Status:\r\nFile loaded successfull.");
                         loadFile(szFilePath);
                     }
@@ -149,9 +151,18 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message,
 
                 case(ID_FILE_EXIT):
                 {
-                    SetDlgItemText(hwnd, 2,
+                    SetDlgItemText(hwnd, ID_EDIT1,
                         "Status:\r\nApplication will be closed.");
                     SendMessage(hwnd, WM_CLOSE, 0, 0);
+                } break;
+
+                case(ID_EXAMPLE_FF):
+                {
+                    char szFilePath[MAX_PATH] = {0};
+                    convertRelativeToAbsolute(szFilePath,
+                        "examples\\finalfantasy.txt");
+
+                    loadFile(szFilePath);
                 } break;
 
                 case(ID_EXAMPLE_MARIO):
